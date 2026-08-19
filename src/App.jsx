@@ -8,7 +8,7 @@ import Attendance from "./components/Attendance";
 import Profile from "./components/Profile";
 import About from "./components/About";
 import Settings from "./components/Settings";
-
+import AI from "./components/AI";
 export default function App() {
   return (
     <AuthProvider>
@@ -20,6 +20,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/about" element={<About />} />
         <Route path="/Settings" element={<Settings />} />
+        <Route path="/ai" element={<AI />} />
       </Routes>
     </AuthProvider>
   );

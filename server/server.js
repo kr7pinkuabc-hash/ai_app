@@ -3,8 +3,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import db from "./db.js";
+import { GoogleGenAI } from "@google/genai";
 
 dotenv.config();
+const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY
+});
 
 const app = express();
 const PORT = 5000;
@@ -245,4 +249,55 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+});
+
+// --------------------------------------------------
+// AI Study Assistant API
+// --------------------------------------------------
+app.post("/api/ai", async (req, res) => {
+    try {
+        const { question } = req.body;
+
+        if (!question || !question.trim()) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a question."
+            });
+        }
+
+        const prompt = `
+You are an AI Study Assistant inside a college study planner and exam preparation application.
+
+Your job is to help students understand academic topics and prepare for exams.
+
+Rules:
+- Explain concepts in simple language.
+- Use examples where useful.
+- Keep answers focused on studying and education.
+- For technical subjects, provide clear step-by-step explanations.
+- For exam preparation, give practical study guidance.
+- Do not unnecessarily make answers extremely long.
+
+Student question:
+${question}
+`;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-3.6-flash",
+            contents: prompt
+        });
+
+        res.json({
+            success: true,
+            answer: response.text
+        });
+
+    } catch (error) {
+        console.error("AI error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "AI service is currently unavailable."
+        });
+    }
 });

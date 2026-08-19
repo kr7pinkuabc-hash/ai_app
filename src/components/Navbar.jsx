@@ -14,6 +14,9 @@ export default function Navbar() {
       <Link to="/profile"><i className="fa fa-user"></i> Profile</Link>
       <Link to="/about"><i className="fa fa-info-circle"></i> About</Link>
       <Link to="/settings"><i className="fa fa-gear"></i> Settings</Link>
+      <Link to="/ai">
+    <i className="fa fa-robot"></i> AI Assistant
+</Link>
       <button onClick={logout}>Logout</button>
     </nav>
   );

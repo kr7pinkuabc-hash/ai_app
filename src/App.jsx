@@ -9,6 +9,7 @@ import Profile from "./components/Profile";
 import About from "./components/About";
 import Settings from "./components/Settings";
 import AI from "./components/AI";
+import Syllabus from "./components/Syllabus";
 export default function App() {
   return (
     <AuthProvider>
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/Settings" element={<Settings />} />
         <Route path="/ai" element={<AI />} />
+        <Route path="/syllabus" element={<Syllabus />} />
       </Routes>
     </AuthProvider>
   );

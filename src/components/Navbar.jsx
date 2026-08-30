@@ -10,6 +10,7 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <Link to="/home"><i className="fa fa-home"></i> Home</Link>
+      <Link to="/syllabus"><i className="fa fa-book"></i> Syllabus</Link>
       <Link to="/attendance"><i className="fa fa-calendar"></i> Attendance</Link>
       <Link to="/profile"><i className="fa fa-user"></i> Profile</Link>
       <Link to="/about"><i className="fa fa-info-circle"></i> About</Link>

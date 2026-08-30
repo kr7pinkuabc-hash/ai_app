@@ -96,6 +96,83 @@ async function calculateStreak(userId) {
 // Login API
 // --------------------------------------------------
 
+// --------------------------------------------------
+// Sign Up API
+// --------------------------------------------------
+
+app.post("/api/signup", async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        if (!username || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Username and password are required."
+            });
+        }
+
+        if (username.trim().length < 3) {
+            return res.status(400).json({
+                success: false,
+                message: "Username must contain at least 3 characters."
+            });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must contain at least 6 characters."
+            });
+        }
+
+        // Check whether username already exists
+        const [existingUsers] = await db.execute(
+            "SELECT id FROM users WHERE username = ?",
+            [username.trim()]
+        );
+
+        if (existingUsers.length > 0) {
+            return res.status(409).json({
+                success: false,
+                message: "Username already exists. Please log in."
+            });
+        }
+
+        // Hash password before storing it
+        const passwordHash = await bcrypt.hash(password, 10);
+
+        const [result] = await db.execute(
+            `
+            INSERT INTO users (username, password_hash)
+            VALUES (?, ?)
+            `,
+            [username.trim(), passwordHash]
+        );
+
+        res.status(201).json({
+            success: true,
+            message: "Account created successfully.",
+            user: {
+                id: result.insertId,
+                username: username.trim()
+            }
+        });
+
+    } catch (error) {
+        console.error("Signup error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Could not create account. Please try again."
+        });
+    }
+});
+
+
+// --------------------------------------------------
+// Login API
+// --------------------------------------------------
+
 app.post("/api/login", async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -107,59 +184,34 @@ app.post("/api/login", async (req, res) => {
             });
         }
 
-        // Check whether user already exists
+        // User MUST already exist
         const [users] = await db.execute(
             "SELECT * FROM users WHERE username = ?",
-            [username]
+            [username.trim()]
         );
 
-        let user;
-
-        // ------------------------------------------
-        // First login = create account
-        // ------------------------------------------
-
         if (users.length === 0) {
-            const passwordHash = await bcrypt.hash(password, 10);
-
-            const [result] = await db.execute(
-                `
-                INSERT INTO users (username, password_hash)
-                VALUES (?, ?)
-                `,
-                [username, passwordHash]
-            );
-
-            user = {
-                id: result.insertId,
-                username
-            };
+            return res.status(404).json({
+                success: false,
+                message: "Account not found. Please sign up first."
+            });
         }
 
-        // ------------------------------------------
-        // Existing user = verify password
-        // ------------------------------------------
+        const user = users[0];
 
-        else {
-            user = users[0];
+        const passwordCorrect = await bcrypt.compare(
+            password,
+            user.password_hash
+        );
 
-            const passwordCorrect = await bcrypt.compare(
-                password,
-                user.password_hash
-            );
-
-            if (!passwordCorrect) {
-                return res.status(401).json({
-                    success: false,
-                    message: "Incorrect username or password."
-                });
-            }
+        if (!passwordCorrect) {
+            return res.status(401).json({
+                success: false,
+                message: "Incorrect username or password."
+            });
         }
 
-        // ------------------------------------------
         // Record today's login
-        // ------------------------------------------
-
         const today = getIndiaDate();
 
         await db.execute(
@@ -170,10 +222,6 @@ app.post("/api/login", async (req, res) => {
             `,
             [user.id, today]
         );
-
-        // ------------------------------------------
-        // Calculate streak
-        // ------------------------------------------
 
         const streak = await calculateStreak(user.id);
 

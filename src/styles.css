@@ -556,3 +556,64 @@ input:checked + .slider::before {
     }
 
 }
+/* ==========================================
+   LOGIN / SIGN UP
+   ========================================== */
+
+.auth-tabs {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.auth-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 12px;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 15px;
+}
+
+.auth-tab.active {
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+.auth-error {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin: 8px 0;
+    text-align: center;
+}
+
+.auth-success {
+    color: #6ee7a0;
+    font-size: 14px;
+    margin: 8px 0;
+    text-align: center;
+}
+
+.auth-switch {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.auth-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}

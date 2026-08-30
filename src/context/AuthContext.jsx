@@ -2,15 +2,21 @@ import { createContext, useState } from "react";
 
 export const AuthContext = createContext();
 
+const API_URL = "http://localhost:5000";
+
 export function AuthProvider({ children }) {
 
     const [user, setUser] = useState(
         JSON.parse(localStorage.getItem("user"))
     );
 
+    // ------------------------------------------
+    // LOGIN
+    // ------------------------------------------
+
     const login = async (username, password) => {
 
-        const response = await fetch("http://localhost:5000/api/login", {
+        const response = await fetch(`${API_URL}/api/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -44,6 +50,37 @@ export function AuthProvider({ children }) {
     };
 
 
+    // ------------------------------------------
+    // SIGN UP
+    // ------------------------------------------
+
+    const signup = async (username, password) => {
+
+        const response = await fetch(`${API_URL}/api/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Signup failed");
+        }
+
+        return data;
+    };
+
+
+    // ------------------------------------------
+    // LOGOUT
+    // ------------------------------------------
+
     const logout = () => {
 
         localStorage.removeItem("user");
@@ -57,6 +94,7 @@ export function AuthProvider({ children }) {
             value={{
                 user,
                 login,
+                signup,
                 logout
             }}
         >

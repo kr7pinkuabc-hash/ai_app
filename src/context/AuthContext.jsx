@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 export const AuthContext = createContext();
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://studysync-ai-f06n.onrender.com";
 
 export function AuthProvider({ children }) {
 

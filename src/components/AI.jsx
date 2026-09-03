@@ -18,7 +18,7 @@ export default function AI() {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:5000/api/ai", {
+            const response = await fetch("https://studysync-ai-f06n.onrender.com/api/ask", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://studysync-ai-f06n.onrender.com";
 
 export default function Syllabus() {
 

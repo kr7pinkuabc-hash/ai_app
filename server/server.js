@@ -364,22 +364,44 @@ app.get("/api/subjects/:userId", async (req, res) => {
 
         const userId = req.params.userId;
 
-        const [subjects] = await db.execute(
-            `
-            SELECT
-                s.id,
-                s.subject_name,
-                COUNT(st.id) AS total_topics,
-                COALESCE(SUM(st.completed), 0) AS completed_topics
-            FROM subjects s
-            LEFT JOIN syllabus_topics st
-                ON s.id = st.subject_id
-            WHERE s.user_id = ?
-            GROUP BY s.id, s.subject_name
-            ORDER BY s.id
-            `,
-            [userId]
-        );
+const [profileRows] = await db.execute(
+    `
+    SELECT class_name, board_name
+    FROM user_academic_profiles
+    WHERE user_id = ?
+    LIMIT 1
+    `,
+    [userId]
+);
+
+if (profileRows.length === 0) {
+    return res.json({
+        success: true,
+        subjects: []
+    });
+}
+
+const className = profileRows[0].class_name;
+const boardName = profileRows[0].board_name;
+
+const [subjects] = await db.execute(
+    `
+    SELECT
+        s.id,
+        s.subject_name,
+        COUNT(st.id) AS total_topics,
+        COALESCE(SUM(st.completed), 0) AS completed_topics
+    FROM subjects s
+    LEFT JOIN syllabus_topics st
+        ON s.id = st.subject_id
+    WHERE s.user_id = ?
+    AND s.class_name = ?
+    AND s.board_name = ?
+    GROUP BY s.id, s.subject_name
+    ORDER BY s.id
+    `,
+    [userId, className, boardName]
+);;
 
         const formattedSubjects = subjects.map(subject => {
 
@@ -701,9 +723,12 @@ app.post("/api/curriculum/setup", async (req, res) => {
                 FROM subjects
                 WHERE user_id = ?
                 AND subject_name = ?
+                AND class_name = ?
+                AND board_name = ?
                 LIMIT 1
                 `,
-                [userId, subjectName]
+                [userId, 
+                subjectName, className, boardName]
             );
 
 
@@ -721,10 +746,10 @@ app.post("/api/curriculum/setup", async (req, res) => {
                 const [result] = await db.execute(
                     `
                     INSERT INTO subjects
-                    (user_id, subject_name)
-                    VALUES (?, ?)
+                    (user_id, subject_name, class_name, board_name)
+                    VALUES (?, ?, ?, ?)
                     `,
-                    [userId, subjectName]
+                    [userId, subjectName, className, boardName]
                 );
 
                 subjectId = result.insertId;

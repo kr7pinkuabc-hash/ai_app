@@ -4,7 +4,153 @@
 
 const CURRICULUM = {
 
+    // ==================================================
+    // CLASS 9
+    // ==================================================
+
+    "Class 9": {
+
+        // --------------------------------------------------
+        // CBSE
+        // --------------------------------------------------
+
+        "CBSE": {
+
+            academicYear: "2026-27",
+
+            subjects: {
+
+                "Mathematics": [
+                    "Number Systems",
+                    "Polynomials",
+                    "Coordinate Geometry",
+                    "Linear Equations in Two Variables",
+                    "Introduction to Euclid's Geometry",
+                    "Lines and Angles",
+                    "Triangles",
+                    "Quadrilaterals",
+                    "Circles",
+                    "Heron's Formula",
+                    "Surface Areas and Volumes",
+                    "Statistics and Probability"
+                ],
+
+                "Science": [
+                    "Matter – Its Nature and Behaviour",
+                    "Organization in Living World",
+                    "Motion, Force and Work",
+                    "Food Production"
+                ],
+
+                "Social Science": [
+                    "India and the Contemporary World – I",
+                    "Democratic Politics – I",
+                    "Contemporary India – I",
+                    "Economics",
+                    "Disaster Management"
+                ]
+
+            }
+
+        },
+
+        // --------------------------------------------------
+        // MAHARASHTRA STATE BOARD
+        // --------------------------------------------------
+
+        "Maharashtra State Board": {
+
+            academicYear: "2026-27",
+
+            subjects: {
+
+                "Mathematics": [
+                    "Sets",
+                    "Real Numbers",
+                    "Polynomials",
+                    "Basic Algebraic Operations",
+                    "Linear Equations in Two Variables",
+                    "Financial Planning",
+                    "Statistics",
+                    "Probability",
+                    "Lines and Angles",
+                    "Triangles",
+                    "Quadrilaterals",
+                    "Circle",
+                    "Coordinate Geometry",
+                    "Surface Area and Volume",
+                    "Heron's Formula",
+                    "Trigonometry"
+                ],
+
+                "Science & Technology": [
+                    "Laws of Motion",
+                    "Work and Energy",
+                    "Current Electricity",
+                    "Measurement of Matter",
+                    "Acids, Bases and Salts",
+                    "Classification of Plants",
+                    "Energy Flow in an Ecosystem",
+                    "Useful and Harmful Microbes",
+                    "Environmental Management",
+                    "Life Processes in Living Organisms",
+                    "Heredity and Evolution",
+                    "Introduction to Biotechnology",
+                    "Observing Space",
+                    "The Universe",
+                    "Carbon: An Important Element",
+                    "Substances in Common Use",
+                    "Metals and Non-metals",
+                    "Sound"
+                ],
+
+                "History & Political Science": [
+                    "Sources of History",
+                    "India in the Post-Independence Period",
+                    "India’s Internal Challenges",
+                    "Economic Development",
+                    "Education",
+                    "Women and Other Weaker Sections",
+                    "Changing Life",
+                    "Traditions of Knowledge",
+                    "Political Science – Introduction",
+                    "Political Parties",
+                    "Social and Political Movements",
+                    "Challenges before Indian Democracy"
+                ],
+
+                "Geography": [
+                    "Distributional Maps",
+                    "Endogenetic Movements",
+                    "Exogenetic Processes Part 1",
+                    "Exogenetic Processes Part 2",
+                    "Precipitation",
+                    "Properties of Sea Water",
+                    "International Date Line",
+                    "Natural Vegetation",
+                    "Population",
+                    "Human Settlements",
+                    "Economy and Occupations",
+                    "Transport and Communication",
+                    "Urbanisation"
+                ]
+
+            }
+
+        }
+
+    },
+
+
+    // ==================================================
+    // CLASS 10
+    // ==================================================
+
     "Class 10": {
+
+        // --------------------------------------------------
+        // CBSE
+        // --------------------------------------------------
 
         "CBSE": {
 
@@ -46,13 +192,11 @@ const CURRICULUM = {
                 ],
 
                 "Social Science": [
-
                     "History - The Rise of Nationalism in Europe",
                     "History - Nationalism in India",
                     "History - The Making of a Global World",
                     "History - The Age of Industrialisation",
                     "History - Print Culture and the Modern World",
-
                     "Geography - Resources and Development",
                     "Geography - Forest and Wildlife Resources",
                     "Geography - Water Resources",
@@ -60,13 +204,11 @@ const CURRICULUM = {
                     "Geography - Minerals and Energy Resources",
                     "Geography - Manufacturing Industries",
                     "Geography - Lifelines of National Economy",
-
                     "Political Science - Power Sharing",
                     "Political Science - Federalism",
                     "Political Science - Gender, Religion and Caste",
                     "Political Science - Political Parties",
                     "Political Science - Outcomes of Democracy",
-
                     "Economics - Development",
                     "Economics - Sectors of the Indian Economy",
                     "Economics - Money and Credit",
@@ -75,8 +217,13 @@ const CURRICULUM = {
                 ]
 
             }
+
         },
 
+
+        // --------------------------------------------------
+        // MAHARASHTRA STATE BOARD
+        // --------------------------------------------------
 
         "Maharashtra State Board": {
 
@@ -132,7 +279,6 @@ const CURRICULUM = {
                     "Sports and History",
                     "Tourism and History",
                     "Heritage Management",
-
                     "Working of the Constitution",
                     "The Electoral Process",
                     "Political Parties",
@@ -155,11 +301,12 @@ const CURRICULUM = {
                 ]
 
             }
+
         }
 
     }
 
 };
 
-
 export default CURRICULUM;
+

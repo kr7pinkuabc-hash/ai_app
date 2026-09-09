@@ -347,6 +347,7 @@ app.get("/api/attendance/:userId", async (req, res) => {
 app.get("/", (req, res) => {
 
     res.send("AI Study Planner backend is running.");
+
 });
 
 
@@ -364,44 +365,44 @@ app.get("/api/subjects/:userId", async (req, res) => {
 
         const userId = req.params.userId;
 
-const [profileRows] = await db.execute(
-    `
-    SELECT class_name, board_name
-    FROM user_academic_profiles
-    WHERE user_id = ?
-    LIMIT 1
-    `,
-    [userId]
-);
+        const [profileRows] = await db.execute(
+            `
+            SELECT class_name, board_name
+            FROM user_academic_profiles
+            WHERE user_id = ?
+            LIMIT 1
+            `,
+            [userId]
+        );
 
-if (profileRows.length === 0) {
-    return res.json({
-        success: true,
-        subjects: []
-    });
-}
+        if (profileRows.length === 0) {
+            return res.json({
+                success: true,
+                subjects: []
+            });
+        }
 
-const className = profileRows[0].class_name;
-const boardName = profileRows[0].board_name;
+        const className = profileRows[0].class_name;
+        const boardName = profileRows[0].board_name;
 
-const [subjects] = await db.execute(
-    `
-    SELECT
-        s.id,
-        s.subject_name,
-        COUNT(st.id) AS total_topics,
-        COALESCE(SUM(st.completed), 0) AS completed_topics
-    FROM subjects s
-    LEFT JOIN syllabus_topics st
-        ON s.id = st.subject_id
-    WHERE s.user_id = ?
-    AND s.class_name = ?
-    AND s.board_name = ?
-    GROUP BY s.id, s.subject_name
-    ORDER BY s.id
-    `,
-    [userId, className, boardName]
-);;
+        const [subjects] = await db.execute(
+            `
+            SELECT
+                s.id,
+                s.subject_name,
+                COUNT(st.id) AS total_topics,
+                COALESCE(SUM(st.completed), 0) AS completed_topics
+            FROM subjects s
+            LEFT JOIN syllabus_topics st
+                ON s.id = st.subject_id
+            WHERE s.user_id = ?
+            AND s.class_name = ?
+            AND s.board_name = ?
+            GROUP BY s.id, s.subject_name
+            ORDER BY s.id
+            `,
+            [userId, className, boardName]
+        );
 
         const formattedSubjects = subjects.map(subject => {
 
@@ -670,7 +671,6 @@ app.post("/api/curriculum/setup", async (req, res) => {
             });
         }
 
-
         // ------------------------------------------
         // Save academic profile
         // ------------------------------------------
@@ -727,8 +727,7 @@ app.post("/api/curriculum/setup", async (req, res) => {
                 AND board_name = ?
                 LIMIT 1
                 `,
-                [userId, 
-                subjectName, className, boardName]
+                [userId, subjectName, className, boardName]
             );
 
 
@@ -930,12 +929,15 @@ ${question}
 
     } catch (error) {
 
-        console.error("AI error:", error);
+        // TEMPORARY DEBUGGING:
+        // This will show the real Gemini error
+        // in the backend terminal.
+        console.error("AI ERROR:", error);
+        console.error("MESSAGE:", error.message);
 
         res.status(500).json({
             success: false,
-            message:
-                "AI service is currently unavailable."
+            message: error.message
         });
     }
 });

@@ -6,6 +6,12 @@ export default function AI() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const API_URL = import.meta.env.VITE_API_URL || (
+        typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+            ? "http://localhost:5000"
+            : "https://studysync-ai-f06n.onrender.com"
+    );
+
     const askAI = async (customQuestion = null) => {
         const userQuestion = customQuestion || question;
 
@@ -18,7 +24,7 @@ export default function AI() {
         setError("");
 
         try {
-            const response = await fetch("https://studysync-ai-f06n.onrender.com/api/ai",  {
+            const response = await fetch(`${API_URL}/api/ai`,  {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

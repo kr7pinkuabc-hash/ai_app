@@ -1,6 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL || (
+    typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+        ? "http://localhost:5000"
+        : "https://studysync-ai-f06n.onrender.com"
+);
+
 export default function Attendance() {
 
     const { user } = useContext(AuthContext);
@@ -21,7 +27,7 @@ export default function Attendance() {
 
             try {
 
-                const response = await fetch(`https://studysync-ai-f06n.onrender.com/api/attendance/${user.id}`);
+                const response = await fetch(`${API_URL}/api/attendance/${user.id}`);
 
                 const data = await response.json();
 

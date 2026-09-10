@@ -782,3 +782,17 @@ input:checked + .slider::before {
 .syllabus-success {
     background: rgba(0, 200, 100, 0.15);
 }
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.hero-text h1,
+.hero-text h5 {
+  margin: 0;
+}
